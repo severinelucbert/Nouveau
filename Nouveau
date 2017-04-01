@@ -1,1 +1,257 @@
-Ceci est un nouveau Repository
+-- phpMyAdmin SQL Dump
+-- version 4.6.4
+-- https://www.phpmyadmin.net/
+--
+-- Client :  localhost
+-- Généré le :  Sam 01 Avril 2017 à 16:43
+-- Version du serveur :  5.6.28
+-- Version de PHP :  7.0.10
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- Base de données :  `expressfood`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `clients`
+--
+
+CREATE TABLE `clients` (
+  `ID` int(11) NOT NULL,
+  `nom` varchar(100) NOT NULL,
+  `prénom` varchar(100) NOT NULL,
+  `email` varchar(150) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `création_compte` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `clients`
+--
+
+INSERT INTO `clients` (`ID`, `nom`, `prénom`, `email`, `password`, `création_compte`) VALUES
+(1, 'nom 1', 'prénom 1', 'email 1', '123', '2017-03-30 22:00:00'),
+(2, 'nom 2', 'prénom 2', 'email 2', '123', '2017-03-31 15:28:12'),
+(3, 'nom 3', 'prénom 3', 'email 3', '123', '2017-03-31 15:28:12'),
+(4, 'nom 4', 'prénom 4', 'email 4', '123', '2017-03-31 15:28:12'),
+(5, 'nom 5', 'prénom 5', 'email 5', '123', '2017-03-31 15:28:12');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `clients_adresses`
+--
+
+CREATE TABLE `clients_adresses` (
+  `ID` int(11) NOT NULL,
+  `client` int(11) NOT NULL,
+  `adresse` varchar(200) NOT NULL,
+  `complement_adresse` varchar(100) NOT NULL,
+  `code_entree` varchar(50) NOT NULL,
+  `ville` varchar(200) NOT NULL,
+  `code_postale` int(5) NOT NULL,
+  `telephone` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `clients_adresses`
+--
+
+INSERT INTO `clients_adresses` (`ID`, `client`, `adresse`, `complement_adresse`, `code_entree`, `ville`, `code_postale`, `telephone`) VALUES
+(1, 1, 'adresse 1', '', '', 'ville 1', 1, 606060606),
+(2, 2, 'adresse 2', '', '', 'ville 2', 2, 606060606),
+(3, 3, 'adresse 3', '', '', 'ville 3', 3, 606060606),
+(4, 4, 'adresse 4', '', '', 'ville 4', 4, 606060606),
+(5, 5, 'adresse 5', '', '', 'ville 5', 5, 606060606);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `commandes`
+--
+
+CREATE TABLE `commandes` (
+  `ID` int(11) NOT NULL,
+  `client` int(11) NOT NULL,
+  `descriptif_commande` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `commandes`
+--
+
+INSERT INTO `commandes` (`ID`, `client`, `descriptif_commande`) VALUES
+(1, 1, 'plat 2'),
+(2, 2, 'plat 1');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `etat_commandes`
+--
+
+CREATE TABLE `etat_commandes` (
+  `ID` int(11) NOT NULL,
+  `en_preparation` tinyint(1) NOT NULL,
+  `en_livraison` tinyint(1) NOT NULL,
+  `terminee` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `etat_commandes`
+--
+
+INSERT INTO `etat_commandes` (`ID`, `en_preparation`, `en_livraison`, `terminee`) VALUES
+(1, 1, 0, 0),
+(2, 0, 1, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `livreurs`
+--
+
+CREATE TABLE `livreurs` (
+  `ID` int(11) NOT NULL,
+  `nom` varchar(100) NOT NULL,
+  `libre` tinyint(1) NOT NULL,
+  `en livraison` tinyint(1) NOT NULL,
+  `position` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `livreurs`
+--
+
+INSERT INTO `livreurs` (`ID`, `nom`, `libre`, `en livraison`, `position`) VALUES
+(1, 'Charles', 1, 0, ''),
+(2, 'Alex', 0, 1, 'Chez un client');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `plats`
+--
+
+CREATE TABLE `plats` (
+  `ID` int(11) NOT NULL,
+  `nom` varchar(50) NOT NULL,
+  `description` text NOT NULL,
+  `prix` decimal(10,0) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `plats`
+--
+
+INSERT INTO `plats` (`ID`, `nom`, `description`, `prix`) VALUES
+(1, 'plat 1', 'descriptif du plat du jour 1', '20'),
+(2, 'plat 2', 'descriptif du plat du jour 2', '20'),
+(3, 'plat 3', 'descriptif du plat du jour 3', '20'),
+(4, 'plat 4', 'descriptif du plat du jour 4', '20'),
+(5, 'plat 5', 'descriptif du plat du jour 5', '20');
+
+--
+-- Index pour les tables exportées
+--
+
+--
+-- Index pour la table `clients`
+--
+ALTER TABLE `clients`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Index pour la table `clients_adresses`
+--
+ALTER TABLE `clients_adresses`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `client` (`client`);
+
+--
+-- Index pour la table `commandes`
+--
+ALTER TABLE `commandes`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `client` (`client`);
+
+--
+-- Index pour la table `etat_commandes`
+--
+ALTER TABLE `etat_commandes`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Index pour la table `livreurs`
+--
+ALTER TABLE `livreurs`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Index pour la table `plats`
+--
+ALTER TABLE `plats`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- AUTO_INCREMENT pour les tables exportées
+--
+
+--
+-- AUTO_INCREMENT pour la table `clients`
+--
+ALTER TABLE `clients`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT pour la table `clients_adresses`
+--
+ALTER TABLE `clients_adresses`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT pour la table `commandes`
+--
+ALTER TABLE `commandes`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT pour la table `etat_commandes`
+--
+ALTER TABLE `etat_commandes`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT pour la table `plats`
+--
+ALTER TABLE `plats`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- Contraintes pour les tables exportées
+--
+
+--
+-- Contraintes pour la table `clients_adresses`
+--
+ALTER TABLE `clients_adresses`
+  ADD CONSTRAINT `clients_adresses_ibfk_1` FOREIGN KEY (`ID`) REFERENCES `clients` (`ID`);
+
+--
+-- Contraintes pour la table `commandes`
+--
+ALTER TABLE `commandes`
+  ADD CONSTRAINT `commandes_ibfk_1` FOREIGN KEY (`ID`) REFERENCES `clients` (`ID`),
+  ADD CONSTRAINT `commandes_ibfk_2` FOREIGN KEY (`client`) REFERENCES `livreurs` (`ID`);
+
+--
+-- Contraintes pour la table `etat_commandes`
+--
+ALTER TABLE `etat_commandes`
+  ADD CONSTRAINT `etat_commandes_ibfk_1` FOREIGN KEY (`ID`) REFERENCES `clients` (`ID`);
+
+--
+-- Contraintes pour la table `plats`
+--
+ALTER TABLE `plats`
+  ADD CONSTRAINT `plats_ibfk_1` FOREIGN KEY (`ID`) REFERENCES `clients` (`ID`);
+
